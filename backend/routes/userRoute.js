@@ -1,7 +1,8 @@
 import express from 'express'
-import User from '../models/userModel'
+// import User from '../models/userModel'
 import bcrypt from 'bcrypt'
-import passport from '../authentication/passport'
+const passport = require('passport')
+const User = require('../controllers/userController')
 
 const router = express.Router()
 router.use(express.json())
@@ -33,65 +34,56 @@ router.post('/login', async (req, res, next) => {
 router.get('/logout', (req, res) => {
     req.logout()
 })
+
 router.post('/signup', async(req, res) => {
     console.log(req.body)
+    const user = await User.createUser(req.body,false)
+    console.log(user)
     const { name, email, password } = req.body
+    res.send(user)
+    // user.then(data => res.send(data))
+    // // Check required fields
+    // if (!name || !email || !password)
+    // {
+    //     res.status(400).send({ msg: 'Invalid username or password'})
+    // }
 
-    // Check required fields
-    if (!name || !email || !password)
-    {
-        res.status(400).send({ msg: 'Invalid username or password'})
-    }
+    // // Check if email already used
+    // const isExistingUser = await User.findOne({
+    //     email: req.body.email
+    // })
+    // if (isExistingUser)
+    // {
+    //     res.status(400).send({ msg: 'User already exists with the entered email'})
+    // }
+    // // Creating new user
+    // try {
+    //     const user = new User({
+    //         name,
+    //         email,
+    //         password,
+    //         isAdmin: 'false'
+    //     })
+    //     // TODO: Hash Password
 
-    // Check if email already used
-    const isExistingUser = await User.findOne({
-        email: req.body.email
-    })
-    if (isExistingUser)
-    {
-        res.status(400).send({ msg: 'User already exists with the entered email'})
-    }
-    // Creating new user
-    try {
-        const user = new User({
-            name,
-            email,
-            password,
-            isAdmin: 'false'
-        })
-        // TODO: Hash Password
-
-        const newUser = await user.save()
-        res.send({
-            _id: newUser.id,
-            name: newUser.name,
-            email: newUser.email,
-            isAdmin: newUser.isAdmin
-        })
-    } catch (error) {
-        res.send({ msg: error.message })
-    }
+    //     const newUser = await user.save()
+    //     res.send({
+    //         _id: newUser.id,
+    //         name: newUser.name,
+    //         email: newUser.email,
+    //         isAdmin: newUser.isAdmin
+    //     })
+    // } catch (error) {
+    //     res.send({ msg: error.message })
+    // }
 })
 
 router.get('/createadmin', async (req, res) =>{
-    try {
-        const user = new User({
-            name: 'Nirgo',
-            email: 'nirgo@nirgo.com',
-            password: '12341234',
-            isAdmin: 'true'
-        })
-
-        const newUser = await user.save()
-        res.send({
-            _id: newUser.id,
-            name: newUser.name,
-            email: newUser.email,
-            isAdmin: newUser.isAdmin
-        })
-    } catch (error) {
-        res.send({ msg: error.message })
-    }
+    console.log(req.body)
+    const user = await User.createUser(req.body,true)
+    console.log(user)
+    const { name, email, password } = req.body
+    res.send(user)
 })
 
 export default router
