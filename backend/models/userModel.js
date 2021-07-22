@@ -26,6 +26,25 @@ const userSchema = new mongoose.Schema({
         trim: true,
         minlength: 6
     },
+    address : {
+        line1 : {
+            type : String,
+            trim : true
+        },
+        line2 : {
+            type : String,
+            trim : true
+        },
+        line3 : {
+            type : String,
+            trim : true
+        },
+        pincode:{
+            type :Number,
+            trim :true,
+        }
+
+    },
     isAdmin: {
         type: Boolean,
         required: true,

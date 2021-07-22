@@ -1,6 +1,7 @@
 const userModel = require('../models/userModel')
 const mongoose = require('mongoose')
 const User = mongoose.model('User')
+const bcrypt = require('bcrypt')
 
 async function createUser(_user,_role){
     console.log(_user.name)
@@ -17,11 +18,13 @@ async function createUser(_user,_role){
         return ({user:null,msg:"Existing User"})
     }
     // Creating new user
+
     try {
+        const hashedPassword = await hashPassword(10,_user.password)
         const user = new User({
             name : _user.name,
             email : _user.email,
-            password : _user.password,
+            password : hashedPassword,
             role : _role
         })
         // TODO: Hash Password
@@ -43,6 +46,14 @@ async function checkId(id){
     const user = await User.findById(id)
     return user
 }
+async function hashPassword(saltRounds, password){
+    const hashedPassword = await bcrypt.hash(password,saltRounds)
+    return hashedPassword
+}
+async function comparePassword(hashedPassword,password){
+    const result = await bcrypt.compare(password,hashedPassword);
+    return result
+}
 
 
-module.exports = {createUser,checkUser,checkId}
+module.exports = {createUser,checkUser,checkId,comparePassword}
