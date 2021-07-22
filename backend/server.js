@@ -3,10 +3,11 @@ import session from 'express-session'
 import config from './config'
 import mongoose from 'mongoose'
 import userRoute from './routes/userRoute'
+import productRoute from './routes/productRoute'
 import { ensureAuthenticated } from './authentication/auth'
 const _mongodbUrl = config.MONGODB_URL
 const _mongoDBName = config.DB_NAME
-import passport from 'passport'
+const passport = require('passport')
 require('./authentication/passport')
 
 const app = express()
@@ -15,14 +16,15 @@ connectMongo(_mongodbUrl,_mongoDBName);
 // Express session
 app.use(session({
     secret: 'secret',
-    resave: true,
-    saveUninitialized: true
+    resave: false,
+    saveUninitialized: false
 }))
 
 // Passport middleware
 app.use(passport.initialize())
 app.use(passport.session())
 app.use('/api/users', userRoute)
+app.use('/api/products', productRoute)
 
 app.get('/api/products', (req, res) => {
     res.send('TODO - Product details')

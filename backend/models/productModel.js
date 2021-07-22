@@ -1,6 +1,5 @@
 import mongoose from 'mongoose'
-import validator from 'validator'
-const sellerSchema = require('../models/sellerModel').sellerSchema
+// const sellerSchema = require('../models/sellerModel').sellerSchema
 
 const NAME = "Product"
 const productSchema = new mongoose.Schema({
@@ -9,18 +8,36 @@ const productSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
-    // TODO: Encrypt password 
     price: {
         type: Number,
-        required : true
+        required: true
     },
-    manufacturer:{
+    image: {
         type: String,
-        required : true
+        required: true,
+        trim: true
     },
-    description:String,
-    sellers : [sellerSchema]
+    manufacturer: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    description: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    rating: {
+        type: Number,
+        default: 0,
+        required: true
+    },
+    numReviews: {
+        type: Number,
+        default: 0,
+        required: true
+    }
 })
 
-mongoose.model(NAME,productSchema)
-module.exports = {productSchema}
+const productModel = mongoose.model(NAME, productSchema)
+module.exports = productModel

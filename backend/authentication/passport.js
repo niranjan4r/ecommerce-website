@@ -10,7 +10,8 @@ passport.use(
     new LocalStrategy({ usernameField: 'email', passwordField: 'password' },async (email, password, done) => {
         // Match User
         const user = await User.checkUser({email:email})
-        if(passwordHelper.comparePassword(user.password,password)) return done(null,user)
+        if(user == null || passwordHelper.comparePassword(user.password, password)) 
+            return done(null, user)
         else return done(null, false, { message: 'Email or password is incorrect' })
     })
 )

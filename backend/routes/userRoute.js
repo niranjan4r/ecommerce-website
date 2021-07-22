@@ -8,15 +8,16 @@ const router = express.Router()
 
 router.use(express.json())
 
-router.post('/login', async (req, res, next) => {
-    passport.authenticate('local', {
-        successRedirect: '/',
-        failureRedirect: '/login'
-    }) (req, res, next);   
-})
-
+router.post('/login', passport.authenticate('local', { 
+    successRedirect: '/',
+    failureRedirect: '/login'
+}))
+    
 router.get('/logout', (req, res) => {
-    req.logout()
+    req.session.destroy(() => {
+        res.clearCookie('connect.sid')
+        res.redirect('/login')
+    })
 })
 
 router.post('/signup', async(req, res) => {

@@ -19,7 +19,6 @@ const userSchema = new mongoose.Schema({
             }
         }
     },
-    // TODO: Encrypt password 
     password: {
         type: String,
         required: true,
