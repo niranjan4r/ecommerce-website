@@ -36,4 +36,18 @@ async function addProduct(_product) {
     }
 }
 
-module.exports = {listProducts, addProduct, findProduct}
+async function deleteProduct(_id) {
+    
+    try {
+        const deletedProduct = await Product.findOne({ _id });
+        if (deletedProduct) {
+            await Product.deleteOne({ _id });
+            return ({status: true, error: null})
+        } 
+        return ({status: false, error: 'Product not found'})
+    } catch (error) {
+        return ({status: false, error})
+    }
+}
+
+module.exports = {listProducts, addProduct, findProduct, deleteProduct}
