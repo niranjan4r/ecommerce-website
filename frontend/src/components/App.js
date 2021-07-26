@@ -10,7 +10,6 @@ function App() {
   return (
      <div>
        <Background/>
-       
        <BrowserRouter>
         <Switch>
           <Route exact path="/">

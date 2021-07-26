@@ -6,7 +6,7 @@ const User = require('../controllers/userController')
 
 const router = express.Router()
 
-router.use(express.json())
+
 
 router.post('/login', passport.authenticate('local', { 
     successRedirect: '/',

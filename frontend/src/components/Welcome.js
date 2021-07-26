@@ -1,12 +1,23 @@
 import React from 'react'
+import { useState } from 'react'
+import {Home } from './Home'
+import { WelcomeHeader } from './WelcomeHeader'
+
+
 
 export  function Welcome() {
+    const [loginState,setLoginState] = useState("")
+    const [user,setUser] = useState("")
+
     return (
         <div>
-            <div className="buttons-for-index">
-            <button className="login-button"><h4 className="login-button-label"><a href="/login">LOGIN</a></h4></button>
-            <button className="register-button"><h4 className="Register-button-label"><a href="/signup">REGISTER</a></h4></button>
+            <div className="headerWrapper">
+                <WelcomeHeader user={user}/>
+            </div>
+            <div className="homeWrapper">
+                <Home/>
             </div>
         </div>
     )
 }
+

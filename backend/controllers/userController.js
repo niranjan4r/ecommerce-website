@@ -50,10 +50,7 @@ async function hashPassword(saltRounds, password){
     const hashedPassword = await bcrypt.hash(password,saltRounds)
     return hashedPassword
 }
-async function comparePassword(hashedPassword,password){
-    const result = await bcrypt.compare(password,hashedPassword);
-    return result
-}
 
 
-module.exports = {createUser,checkUser,checkId,comparePassword}
+
+module.exports = {createUser,checkUser,checkId}
